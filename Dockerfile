@@ -15,7 +15,7 @@ LABEL mantainer="Eloy Lopez <elswork@gmail.com>" \
     org.opencontainers.image.revision=$VCS_REF \
     org.opencontainers.image.licenses=MIT
 
-RUN apk update && apk upgrade && apk add --no-cache bash samba-common-tools samba tzdata && rm -rf /var/cache/apk/*
+RUN apk update && apk upgrade && apk add --no-cache bash samba-common-tools samba tzdata shadow && rm -rf /var/cache/apk/*
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod u+x /entrypoint.sh

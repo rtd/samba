@@ -79,8 +79,8 @@ EOH
         echo -n "Add user "
         IFS=: read uid group username groupname password <<<"$OPTARG"
         echo -n "'$username' "
-        getent group | grep "$groupname:x:$group" &>/dev/null || addgroup -g "$group" -S "$groupname"
-        getent passwd | grep "$username:x:$uid:$group" &>/dev/null || adduser -u "$uid" -G "$groupname" "$username" -SHD
+        getent group | grep "$groupname:x:$group" &>/dev/null || groupadd -g "$group" "$groupname"
+        getent passwd | grep "$username:x:$uid:$group" &>/dev/null || useradd -u "$uid" -g "$group" -d /tmp -s /bin/false "$username"
         echo "with password '$password' "
         echo "$password" | tee - | smbpasswd -s -a "$username"
         echo "DONE"
