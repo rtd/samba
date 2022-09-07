@@ -4,8 +4,6 @@ CONFIG_FILE="/etc/samba/smb.conf"
 
 hostname=`hostname`
 set -e
-if [[ ! -f $CONFIG_FILE ]]
-then
 cat >"$CONFIG_FILE" <<EOT
 [global]
 workgroup = WORKGROUP
@@ -16,8 +14,6 @@ create mask = 0664
 directory mask = 0775
 force create mode = 0664
 force directory mode = 0775
-#force user = smbuser
-#force group = smbuser
 load printers = no
 printing = bsd
 printcap name = /dev/null
@@ -28,12 +24,14 @@ map to guest = bad user
 socket options = TCP_NODELAY SO_RCVBUF=8192 SO_SNDBUF=8192
 local master = no
 dns proxy = no
+server signing = mandatory
+smb encrypt = mandatory
 EOT
-fi
-  while getopts ":u:s:h" opt; do
-    case $opt in
-      h)
-        cat <<EOH
+
+while getopts ":u:s:h" opt; do
+  case $opt in
+    h)
+      cat <<EOH
 Samba server container
 
 ATTENTION: This is a recipe highly adapted to my needs, it might not fit yours.
